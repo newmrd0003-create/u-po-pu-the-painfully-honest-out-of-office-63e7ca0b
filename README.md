@@ -16,4 +16,4 @@ It admits the private truth (relief at being unreachable, and that burnt-out rep
 python3 main.py
 ```
 
-Writes the entry to `/output/entry.txt` (and a local `entry.txt` copy) and validates it first: 1–200 characters, one sentence, not whitespace only.
+Writes the entry to `$MAKEFUN_OUTPUT_DIR/entry.txt` (`/output/entry.txt` by default) and validates it first: 1–200 characters, one sentence, not whitespace only.
