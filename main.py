@@ -59,7 +59,10 @@ def validate(text):
     """Return (True, []) if text is a valid entry, else (False, [reasons]).
 
     Valid: UTF-8 text, 1-200 characters, not whitespace only, exactly
-    one sentence (a single sentence-ending mark, at the end).
+    one sentence (a single sentence-ending mark, at the end), a single
+    line with no leading/trailing whitespace — the entry is written to
+    entry.txt verbatim, so a newline, control character or stray space
+    would silently change what the judge reads.
     """
     errors = []
     if not isinstance(text, str):
@@ -70,6 +73,12 @@ def validate(text):
         errors.append("entry is %d characters, over the 200 limit" % len(text))
     if len(text) < 1:
         errors.append("entry is empty")
+    if text != text.strip():
+        errors.append("entry has leading or trailing whitespace")
+    if "\n" in text or "\r" in text:
+        errors.append("entry must be a single line, no newline characters")
+    if any(ord(c) < 32 for c in text):
+        errors.append("entry contains control characters")
     enders = sum(text.count(c) for c in _SENTENCE_ENDERS)
     if enders != 1:
         errors.append("entry has %d sentence-ending marks, expected 1" % enders)
